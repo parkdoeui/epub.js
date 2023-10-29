@@ -1,7 +1,7 @@
 {
   "name": "@parkdoeui/epubjs",
   "version": "0.3.93",
-  "description": "Parse and Render Epubs",
+  "description": "Parse and Render Epubs.",
   "main": "lib/index.js",
   "module": "src/index.js",
   "types": "types/index.d.ts",
