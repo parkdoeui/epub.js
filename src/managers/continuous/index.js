@@ -382,7 +382,7 @@ class ContinuousViewManager extends DefaultViewManager {
 			if (this.settings.axis === "vertical") {
 				this.scrollTo(0, prevTop - bounds.height, true);
 			} else {
-				if(this.settings.direction === 'rtl') {
+				if(this.settings.direction === "rtl") {
 					if (!this.settings.fullsize) {
 						this.scrollTo(prevLeft, 0, true);
 					} else {

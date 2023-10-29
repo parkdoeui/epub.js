@@ -4,8 +4,8 @@ import { EVENTS } from "./utils/constants";
 
 /**
 	* Handles managing adding & removing Annotations
-	* @param {Rendition} rendition
 	* @class
+	* @param {Rendition} rendition - The Rendition object used to render the EPUB.
 	*/
 class Annotations {
 
@@ -29,6 +29,7 @@ class Annotations {
 	 * @param {function} [cb] Callback after annotation is added
 	 * @param {string} className CSS class to assign to annotation
 	 * @param {object} styles CSS styles to assign to annotation
+	 * @param {object} cbOptions Additional options to pass to the callback function
 	 * @returns {Annotation} annotation
 	 */
 	add (type, cfiRange, data, cb, className, styles, cbOptions) {
@@ -69,6 +70,7 @@ class Annotations {
 	 * Remove an annotation from store
 	 * @param {EpubCFI} cfiRange EpubCFI range the annotation is attached to
 	 * @param {string} type Type of annotation to add: "highlight", "underline", "mark"
+	 * @returns {void} void
 	 */
 	remove (cfiRange, type) {
 		let hash = encodeURI(cfiRange + type);
@@ -211,6 +213,7 @@ class Annotations {
  * @param {function} [options.cb] Callback after annotation is clicked
  * @param {string} className CSS class to assign to annotation
  * @param {object} styles CSS styles to assign to annotation
+ * @param {cbOptions} cbOptions additional options to pass to the callback function
  * @returns {Annotation} annotation
  */
 class Annotation {
@@ -301,4 +304,4 @@ class Annotation {
 EventEmitter(Annotation.prototype);
 
 
-export default Annotations
+export default Annotations;

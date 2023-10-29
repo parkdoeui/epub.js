@@ -5,20 +5,20 @@ import EventEmitter from "event-emitter";
 // easing equations from https://github.com/danro/easing-js/blob/master/easing.js
 const PI_D2 = (Math.PI / 2);
 const EASING_EQUATIONS = {
-		easeOutSine: function (pos) {
-				return Math.sin(pos * PI_D2);
-		},
-		easeInOutSine: function (pos) {
-				return (-0.5 * (Math.cos(Math.PI * pos) - 1));
-		},
-		easeInOutQuint: function (pos) {
-				if ((pos /= 0.5) < 1) {
-						return 0.5 * Math.pow(pos, 5);
-				}
-				return 0.5 * (Math.pow((pos - 2), 5) + 2);
-		},
-		easeInCubic: function(pos) {
-			return Math.pow(pos, 3);
+	easeOutSine: function (pos) {
+		return Math.sin(pos * PI_D2);
+	},
+	easeInOutSine: function (pos) {
+		return (-0.5 * (Math.cos(Math.PI * pos) - 1));
+	},
+	easeInOutQuint: function (pos) {
+		if ((pos /= 0.5) < 1) {
+			return 0.5 * Math.pow(pos, 5);
+		}
+		return 0.5 * (Math.pow((pos - 2), 5) + 2);
+	},
+	easeInCubic: function(pos) {
+		return Math.pow(pos, 3);
   	}
 };
 
@@ -29,7 +29,7 @@ class Snap {
 			duration: 80,
 			minVelocity: 0.2,
 			minDistance: 10,
-			easing: EASING_EQUATIONS['easeInCubic']
+			easing: EASING_EQUATIONS["easeInCubic"]
 		}, options || {});
 
 		this.supportsTouch = this.supportsTouch();
@@ -87,7 +87,7 @@ class Snap {
 	}
 
 	supportsTouch() {
-		if (('ontouchstart' in window) || window.DocumentTouch && document instanceof DocumentTouch) {
+		if (("ontouchstart" in window) || window.DocumentTouch && document instanceof DocumentTouch) {
 			return true;
 		}
 
@@ -104,44 +104,44 @@ class Snap {
 
 	addListeners() {
 		this._onResize = this.onResize.bind(this);
-		window.addEventListener('resize', this._onResize);
+		window.addEventListener("resize", this._onResize);
 
 		this._onScroll = this.onScroll.bind(this);
-		this.scroller.addEventListener('scroll', this._onScroll);
+		this.scroller.addEventListener("scroll", this._onScroll);
 
 		this._onTouchStart = this.onTouchStart.bind(this);
-		this.scroller.addEventListener('touchstart', this._onTouchStart, { passive: true });
-		this.on('touchstart', this._onTouchStart);
+		this.scroller.addEventListener("touchstart", this._onTouchStart, { passive: true });
+		this.on("touchstart", this._onTouchStart);
 
 		this._onTouchMove = this.onTouchMove.bind(this);
-		this.scroller.addEventListener('touchmove', this._onTouchMove, { passive: true });
-		this.on('touchmove', this._onTouchMove);
+		this.scroller.addEventListener("touchmove", this._onTouchMove, { passive: true });
+		this.on("touchmove", this._onTouchMove);
 
 		this._onTouchEnd = this.onTouchEnd.bind(this);
-		this.scroller.addEventListener('touchend', this._onTouchEnd, { passive: true });
-		this.on('touchend', this._onTouchEnd);
+		this.scroller.addEventListener("touchend", this._onTouchEnd, { passive: true });
+		this.on("touchend", this._onTouchEnd);
 
 		this._afterDisplayed = this.afterDisplayed.bind(this);
 		this.manager.on(EVENTS.MANAGERS.ADDED, this._afterDisplayed);
 	}
 
 	removeListeners() {
-		window.removeEventListener('resize', this._onResize);
+		window.removeEventListener("resize", this._onResize);
 		this._onResize = undefined;
 
-		this.scroller.removeEventListener('scroll', this._onScroll);
+		this.scroller.removeEventListener("scroll", this._onScroll);
 		this._onScroll = undefined;
 
-		this.scroller.removeEventListener('touchstart', this._onTouchStart, { passive: true });
-		this.off('touchstart', this._onTouchStart);
+		this.scroller.removeEventListener("touchstart", this._onTouchStart, { passive: true });
+		this.off("touchstart", this._onTouchStart);
 		this._onTouchStart = undefined;
 
-		this.scroller.removeEventListener('touchmove', this._onTouchMove, { passive: true });
-		this.off('touchmove', this._onTouchMove);
+		this.scroller.removeEventListener("touchmove", this._onTouchMove, { passive: true });
+		this.off("touchmove", this._onTouchMove);
 		this._onTouchMove = undefined;
 
-		this.scroller.removeEventListener('touchend', this._onTouchEnd, { passive: true });
-		this.off('touchend', this._onTouchEnd);
+		this.scroller.removeEventListener("touchend", this._onTouchEnd, { passive: true });
+		this.off("touchend", this._onTouchEnd);
 		this._onTouchEnd = undefined;
 
 		this.manager.off(EVENTS.MANAGERS.ADDED, this._afterDisplayed);
@@ -291,12 +291,12 @@ class Snap {
 			}
 
 			if (time < 1) {
-					window.requestAnimationFrame(tick.bind(this));
-					this.scrollTo(start + ((destination - start) * time), 0);
+				window.requestAnimationFrame(tick.bind(this));
+				this.scrollTo(start + ((destination - start) * time), 0);
 			} else {
-					this.scrollTo(destination, 0);
-					this.snapping = false;
-					deferred.resolve();
+				this.scrollTo(destination, 0);
+				this.snapping = false;
+				deferred.resolve();
 			}
 		}
 
@@ -315,7 +315,7 @@ class Snap {
 	}
 
 	now() {
-		return ('now' in window.performance) ? performance.now() : new Date().getTime();
+		return ("now" in window.performance) ? performance.now() : new Date().getTime();
 	}
 
 	destroy() {

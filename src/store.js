@@ -42,7 +42,7 @@ class Store {
 				store = localforage;
 			}
 			this.storage = store.createInstance({
-					name: this.name
+				name: this.name
 			});
 		} catch (e) {
 			throw new Error("localForage lib not loaded");
@@ -55,8 +55,8 @@ class Store {
 	 */
 	addListeners() {
 		this._status = this.status.bind(this);
-		window.addEventListener('online',  this._status);
-	  window.addEventListener('offline', this._status);
+		window.addEventListener("online",  this._status);
+	  window.addEventListener("offline", this._status);
 	}
 
 	/**
@@ -64,8 +64,8 @@ class Store {
 	 * @private
 	 */
 	removeListeners() {
-		window.removeEventListener('online',  this._status);
-	  window.removeEventListener('offline', this._status);
+		window.removeEventListener("online",  this._status);
+	  window.removeEventListener("offline", this._status);
 		this._status = undefined;
 	}
 
@@ -145,7 +145,7 @@ class Store {
 				// save to store if not present
 				this.put(url);
 				return data;
-			})
+			});
 		} else {
 			// From store
 			return this.retrieve(url, type);
@@ -206,16 +206,16 @@ class Store {
 			r = JSON.parse(response);
 		}
 		else
-		if(isXml(type)) {
-			r = parse(response, "text/xml");
-		}
-		else
-		if(type == "xhtml") {
-			r = parse(response, "application/xhtml+xml");
-		}
-		else
-		if(type == "html" || type == "htm") {
-			r = parse(response, "text/html");
+			if(isXml(type)) {
+				r = parse(response, "text/xml");
+			}
+			else
+				if(type == "xhtml") {
+					r = parse(response, "application/xhtml+xml");
+				}
+				else
+					if(type == "html" || type == "htm") {
+						r = parse(response, "text/html");
 		 } else {
 			 r = response;
 		 }

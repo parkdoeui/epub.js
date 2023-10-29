@@ -104,32 +104,32 @@ function request(url, type, withCredentials, headers) {
 				if(responseXML){
 					r = this.responseXML;
 				} else
-				if(isXml(type)){
+					if(isXml(type)){
 					// xhr.overrideMimeType("text/xml"); // for OPF parsing
 					// If this.responseXML wasn't set, try to parse using a DOMParser from text
-					r = parse(this.response, "text/xml");
-				}else
-				if(type == "xhtml"){
-					r = parse(this.response, "application/xhtml+xml");
-				}else
-				if(type == "html" || type == "htm"){
-					r = parse(this.response, "text/html");
-				}else
-				if(type == "json"){
-					r = JSON.parse(this.response);
-				}else
-				if(type == "blob"){
+						r = parse(this.response, "text/xml");
+					}else
+						if(type == "xhtml"){
+							r = parse(this.response, "application/xhtml+xml");
+						}else
+							if(type == "html" || type == "htm"){
+								r = parse(this.response, "text/html");
+							}else
+								if(type == "json"){
+									r = JSON.parse(this.response);
+								}else
+									if(type == "blob"){
 
-					if(supportsURL) {
-						r = this.response;
-					} else {
-						//-- Safari doesn't support responseType blob, so create a blob from arraybuffer
-						r = new Blob([this.response]);
-					}
+										if(supportsURL) {
+											r = this.response;
+										} else {
+											//-- Safari doesn't support responseType blob, so create a blob from arraybuffer
+											r = new Blob([this.response]);
+										}
 
-				}else{
-					r = this.response;
-				}
+									}else{
+										r = this.response;
+									}
 
 				deferred.resolve(r);
 			} else {

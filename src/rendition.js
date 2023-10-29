@@ -214,12 +214,12 @@ class Rendition {
 			this.settings.layout = "pre-paginated";
 		}
 		switch(this.book.package.metadata.spread) {
-			case 'none':
-				this.settings.spread = 'none';
-				break;
-			case 'both':
-				this.settings.spread = true;
-				break;
+		case "none":
+			this.settings.spread = "none";
+			break;
+		case "both":
+			this.settings.spread = true;
+			break;
 		}
 
 		if(!this.manager) {
@@ -635,7 +635,7 @@ class Rendition {
 
 			this._layout.on(EVENTS.LAYOUT.UPDATED, (props, changed) => {
 				this.emit(EVENTS.RENDITION.LAYOUT, props, changed);
-			})
+			});
 		}
 
 		if (this.manager && this._layout) {
@@ -908,7 +908,7 @@ class Rendition {
 		 * @memberof Rendition
 		 */
 		this.emit(EVENTS.RENDITION.SELECTED, cfirange, contents);
-}
+	}
 
 	/**
 	 * Emit a markClicked event with the cfiRange and data from a mark
