@@ -617,14 +617,6 @@ class IframeView {
 		const attributes = Object.assign({"fill": "yellow", "fill-opacity": "0.3", "mix-blend-mode": "multiply"}, styles);
 		let range = this.contents.range(cfiRange);
 
-		// const onMount = (container) => {
-		// 	container.style.pointerEvents = "all";
-		// };
-
-		// const onEject = (container) => {
-		// 	container.style.pointerEvents = "none";
-		// };
-
 		const emitOnClick = () => {
 			this.emit(EVENTS.VIEWS.MARK_CLICKED, cfiRange, data);
 		};

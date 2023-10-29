@@ -134,28 +134,17 @@
       {},
       {
         onClick : (e) => {
-          // console.log("highlight-click", e.target);
+          console.log("highlight-click", e.target);
         },
         onMouseOver : (e) => {
-          // console.log("highlight-mouseover", e.target);
+          console.log("highlight-mouseover", e.target);
         },
         onMouseOut : (e) => {
-          // console.log("highlight-mouseout", e.target);
+          console.log("highlight-mouseout", e.target);
         }
       }
       );
       contents.window.getSelection().removeAllRanges();
-
-      // const highlights = document.querySelectorAll('g')
-      // console.log('highlights', highlights)
-      // highlights.forEach((highlight) => {
-      //   highlight.addEventListener('mouseover', (e) => {
-      //     console.log('highlight hover', e.target)
-      //   })
-      //   highlight.addEventListener('click',(e)=>{
-      //     console.log('custom click', e.target)
-      //   })
-      // })
     });
 
     this.rendition.themes.default({
