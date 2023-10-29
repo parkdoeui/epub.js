@@ -93,8 +93,8 @@ class Section {
 
 		this.load(_request).
 			then(function(contents){
-				var userAgent = (typeof navigator !== 'undefined' && navigator.userAgent) || '';
-				var isIE = userAgent.indexOf('Trident') >= 0;
+				var userAgent = (typeof navigator !== "undefined" && navigator.userAgent) || "";
+				var isIE = userAgent.indexOf("Trident") >= 0;
 				var Serializer;
 				if (typeof XMLSerializer === "undefined" || isIE) {
 					Serializer = XMLDOMSerializer;
@@ -173,7 +173,7 @@ class Section {
 		});
 
 		return matches;
-	};
+	}
 
 
 	/**
@@ -227,7 +227,7 @@ class Section {
 					});
 				}
 			}
-		}
+		};
 
 		const treeWalker = document.createTreeWalker(section.document, NodeFilter.SHOW_TEXT, null, false);
 		let node , nodeList = [];

@@ -39,11 +39,11 @@ export function uuid() {
  */
 export function documentHeight() {
 	return Math.max(
-			document.documentElement.clientHeight,
-			document.body.scrollHeight,
-			document.documentElement.scrollHeight,
-			document.body.offsetHeight,
-			document.documentElement.offsetHeight
+		document.documentElement.clientHeight,
+		document.body.scrollHeight,
+		document.documentElement.scrollHeight,
+		document.body.offsetHeight,
+		document.documentElement.offsetHeight
 	);
 }
 
@@ -730,7 +730,7 @@ export function parents(node) {
 	for (; node; node = node.parentNode) {
 		nodes.unshift(node);
 	}
-	return nodes
+	return nodes;
 }
 
 /**
@@ -768,7 +768,7 @@ export function filterChildren(el, nodeName, single) {
  */
 export function getParentByTagName(node, tagname) {
 	let parent;
-	if (node === null || tagname === '') return;
+	if (node === null || tagname === "") return;
 	parent = node.parentNode;
 	while (parent.nodeType === 1) {
 		if (parent.tagName.toLowerCase() === tagname) {
@@ -843,7 +843,7 @@ export class RangeObject {
 	selectNodeContents(referenceNode) {
 		let end = referenceNode.childNodes[referenceNode.childNodes - 1];
 		let endIndex = (referenceNode.nodeType === 3) ?
-				referenceNode.textContent.length : parent.childNodes.length;
+			referenceNode.textContent.length : parent.childNodes.length;
 		this.setStart(referenceNode, 0);
 		this.setEnd(referenceNode, endIndex);
 	}

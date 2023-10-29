@@ -3,7 +3,7 @@ import {extend, borders, uuid, isNumber, bounds, defer, createBlobUrl, revokeBlo
 import EpubCFI from "../../epubcfi";
 import Contents from "../../contents";
 import { EVENTS } from "../../utils/constants";
-import { Pane, Highlight, Underline } from "marks-pane";
+import { Pane, Highlight, Underline } from "../../libs/marks/marks";
 
 class IframeView {
 	constructor(section, options) {
@@ -562,7 +562,7 @@ class IframeView {
 		return {
 			top: this.element.offsetTop,
 			left: this.element.offsetLeft
-		}
+		};
 	}
 
 	width() {
@@ -603,15 +603,31 @@ class IframeView {
 		return this.elementBounds;
 	}
 
-	highlight(cfiRange, data={}, cb, className = "epubjs-hl", styles = {}) {
+	highlight(cfiRange, data={}, cb, className = "epubjs-hl", styles = {}, cbOptions = {}) {
 		if (!this.contents) {
 			return;
 		}
+
+		// ensuring backward compatibility 
+		const onClickCallback = cb || cbOptions.onClick;
+
+		const onMouseOverCallback = cbOptions.onMouseOver;
+		const onMouseOutCallback = cbOptions.onMouseOut;
+
 		const attributes = Object.assign({"fill": "yellow", "fill-opacity": "0.3", "mix-blend-mode": "multiply"}, styles);
 		let range = this.contents.range(cfiRange);
 
-		let emitter = () => {
+		const emitOnClick = () => {
 			this.emit(EVENTS.VIEWS.MARK_CLICKED, cfiRange, data);
+		};
+
+		const emitOnMouseOver = () => {
+			this.emit(EVENTS.VIEWS.MARK_MOUSEOVER, cfiRange, data);
+			
+		};
+
+		const emitOnMouseOut = () => {
+			this.emit(EVENTS.VIEWS.MARK_MOUSEOUT, cfiRange, data);
 		};
 
 		data["epubcfi"] = cfiRange;
@@ -623,16 +639,48 @@ class IframeView {
 		let m = new Highlight(range, className, data, attributes);
 		let h = this.pane.addMark(m);
 
-		this.highlights[cfiRange] = { "mark": h, "element": h.element, "listeners": [emitter, cb] };
+		const getListeners = () => {
+			let listeners = [
+				emitOnClick, 
+				emitOnMouseOver, 
+				emitOnMouseOut];
+			
+			if(onClickCallback) {
+				listeners.push(onClickCallback);
+			}
+
+			if(onMouseOverCallback) {
+				listeners.push(onMouseOverCallback);
+			}
+
+			if(onMouseOutCallback) {
+				listeners.push(onMouseOutCallback);
+			}
+
+			return listeners;
+		};
+
+		this.highlights[cfiRange] = { "mark": h, "element": h.element, "listeners": getListeners() };
 
 		h.element.setAttribute("ref", className);
-		h.element.addEventListener("click", emitter);
-		h.element.addEventListener("touchstart", emitter);
+		h.element.addEventListener("click", emitOnClick);
+		h.element.addEventListener("touchstart", emitOnClick);
+		h.element.addEventListener("mouseover", emitOnMouseOver);
+		h.element.addEventListener("mouseout", emitOnMouseOut);
 
-		if (cb) {
-			h.element.addEventListener("click", cb);
-			h.element.addEventListener("touchstart", cb);
+		if (onClickCallback) {
+			h.element.addEventListener("click", onClickCallback);
+			h.element.addEventListener("touchstart", onClickCallback);
 		}
+
+		if(onMouseOverCallback) {
+			h.element.addEventListener("mouseover", onMouseOverCallback);
+		}
+
+		if(onMouseOutCallback) {
+			h.element.addEventListener("mouseout", onMouseOutCallback);
+		}
+
 		return h;
 	}
 
@@ -764,7 +812,7 @@ class IframeView {
 				if (l) {
 					item.element.removeEventListener("click", l);
 					item.element.removeEventListener("touchstart", l);
-				};
+				}
 			});
 			delete this.highlights[cfiRange];
 		}
@@ -779,7 +827,7 @@ class IframeView {
 				if (l) {
 					item.element.removeEventListener("click", l);
 					item.element.removeEventListener("touchstart", l);
-				};
+				}
 			});
 			delete this.underlines[cfiRange];
 		}
@@ -794,7 +842,7 @@ class IframeView {
 				if (l) {
 					item.element.removeEventListener("click", l);
 					item.element.removeEventListener("touchstart", l);
-				};
+				}
 			});
 			delete this.marks[cfiRange];
 		}

@@ -214,12 +214,12 @@ class Rendition {
 			this.settings.layout = "pre-paginated";
 		}
 		switch(this.book.package.metadata.spread) {
-			case 'none':
-				this.settings.spread = 'none';
-				break;
-			case 'both':
-				this.settings.spread = true;
-				break;
+		case "none":
+			this.settings.spread = "none";
+			break;
+		case "both":
+			this.settings.spread = true;
+			break;
 		}
 
 		if(!this.manager) {
@@ -418,6 +418,10 @@ class Rendition {
 	afterDisplayed(view){
 
 		view.on(EVENTS.VIEWS.MARK_CLICKED, (cfiRange, data) => this.triggerMarkEvent(cfiRange, data, view.contents));
+
+		view.on(EVENTS.VIEWS.MARK_MOUSEOVER, (cfiRange, data) => this.triggerMarkMouseOverEvent(cfiRange, data, view.contents));
+
+		view.on(EVENTS.VIEWS.MARK_MOUSEOUT, (cfiRange, data) => this.triggerMarkMouseOutEvent(cfiRange, data, view.contents));
 
 		this.hooks.render.trigger(view, this)
 			.then(() => {
@@ -631,7 +635,7 @@ class Rendition {
 
 			this._layout.on(EVENTS.LAYOUT.UPDATED, (props, changed) => {
 				this.emit(EVENTS.RENDITION.LAYOUT, props, changed);
-			})
+			});
 		}
 
 		if (this.manager && this._layout) {
@@ -921,6 +925,14 @@ class Rendition {
 		 * @memberof Rendition
 		 */
 		this.emit(EVENTS.RENDITION.MARK_CLICKED, cfiRange, data, contents);
+	}
+
+	triggerMarkMouseOverEvent(cfiRange, data, contents){
+		this.emit(EVENTS.RENDITION.MARK_MOUSEOVER, cfiRange, data, contents);
+	}
+
+	triggerMarkMouseOutEvent(cfiRange, data, contents){
+		this.emit(EVENTS.RENDITION.MARK_MOUSEOUT, cfiRange, data, contents);
 	}
 
 	/**

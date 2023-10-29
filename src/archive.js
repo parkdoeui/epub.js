@@ -104,16 +104,16 @@ class Archive {
 			r = JSON.parse(response);
 		}
 		else
-		if(isXml(type)) {
-			r = parse(response, "text/xml");
-		}
-		else
-		if(type == "xhtml") {
-			r = parse(response, "application/xhtml+xml");
-		}
-		else
-		if(type == "html" || type == "htm") {
-			r = parse(response, "text/html");
+			if(isXml(type)) {
+				r = parse(response, "text/xml");
+			}
+			else
+				if(type == "xhtml") {
+					r = parse(response, "application/xhtml+xml");
+				}
+				else
+					if(type == "html" || type == "htm") {
+						r = parse(response, "text/html");
 		 } else {
 			 r = response;
 		 }

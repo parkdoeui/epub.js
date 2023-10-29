@@ -4,8 +4,8 @@ import { EVENTS } from "./utils/constants";
 
 /**
 	* Handles managing adding & removing Annotations
-	* @param {Rendition} rendition
 	* @class
+	* @param {Rendition} rendition - The Rendition object used to render the EPUB.
 	*/
 class Annotations {
 
@@ -29,9 +29,10 @@ class Annotations {
 	 * @param {function} [cb] Callback after annotation is added
 	 * @param {string} className CSS class to assign to annotation
 	 * @param {object} styles CSS styles to assign to annotation
+	 * @param {object} cbOptions Additional options to pass to the callback function
 	 * @returns {Annotation} annotation
 	 */
-	add (type, cfiRange, data, cb, className, styles) {
+	add (type, cfiRange, data, cb, className, styles, cbOptions) {
 		let hash = encodeURI(cfiRange + type);
 		let cfi = new EpubCFI(cfiRange);
 		let sectionIndex = cfi.spinePos;
@@ -42,7 +43,8 @@ class Annotations {
 			sectionIndex,
 			cb,
 			className,
-			styles
+			styles,
+			cbOptions,
 		});
 
 		this._annotations[hash] = annotation;
@@ -68,6 +70,7 @@ class Annotations {
 	 * Remove an annotation from store
 	 * @param {EpubCFI} cfiRange EpubCFI range the annotation is attached to
 	 * @param {string} type Type of annotation to add: "highlight", "underline", "mark"
+	 * @returns {void} void
 	 */
 	remove (cfiRange, type) {
 		let hash = encodeURI(cfiRange + type);
@@ -116,8 +119,8 @@ class Annotations {
 	 * @param {string} className CSS class to assign to annotation
 	 * @param {object} styles CSS styles to assign to annotation
 	 */
-	highlight (cfiRange, data, cb, className, styles) {
-		return this.add("highlight", cfiRange, data, cb, className, styles);
+	highlight (cfiRange, data, cb, className, styles, cbOptions) {
+		return this.add("highlight", cfiRange, data, cb, className, styles, cbOptions);
 	}
 
 	/**
@@ -210,6 +213,7 @@ class Annotations {
  * @param {function} [options.cb] Callback after annotation is clicked
  * @param {string} className CSS class to assign to annotation
  * @param {object} styles CSS styles to assign to annotation
+ * @param {cbOptions} cbOptions additional options to pass to the callback function
  * @returns {Annotation} annotation
  */
 class Annotation {
@@ -221,7 +225,8 @@ class Annotation {
 		sectionIndex,
 		cb,
 		className,
-		styles
+		styles,
+		cbOptions,
 	}) {
 		this.type = type;
 		this.cfiRange = cfiRange;
@@ -231,6 +236,7 @@ class Annotation {
 		this.cb = cb;
 		this.className = className;
 		this.styles = styles;
+		this.cbOptions = cbOptions;
 	}
 
 	/**
@@ -246,11 +252,11 @@ class Annotation {
 	 * @param {View} view
 	 */
 	attach (view) {
-		let {cfiRange, data, type, mark, cb, className, styles} = this;
+		let {cfiRange, data, type, mark, cb, cbOptions, className, styles} = this;
 		let result;
 
 		if (type === "highlight") {
-			result = view.highlight(cfiRange, data, cb, className, styles);
+			result = view.highlight(cfiRange, data, cb, className, styles, cbOptions);
 		} else if (type === "underline") {
 			result = view.underline(cfiRange, data, cb, className, styles);
 		} else if (type === "mark") {
@@ -298,4 +304,4 @@ class Annotation {
 EventEmitter(Annotation.prototype);
 
 
-export default Annotations
+export default Annotations;

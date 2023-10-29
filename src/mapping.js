@@ -371,7 +371,7 @@ class Mapping {
 
 			} else if (this.horizontal && this.direction === "rtl") {
 
-				left = pos.left
+				left = pos.left;
 				right = pos.right;
 
 				if(right < start && prev) {
