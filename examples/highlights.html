@@ -112,16 +112,20 @@
       // console.log(location);
     });
 
-    rendition.on("markMouseover", (cfiRange) => {
-      console.log('mouseover from rendition',cfiRange);
+    rendition.on("markMouseover", (e, cfiRange) => {
+      console.log('mouseover', e, cfiRange);
     });
 
-    rendition.on("markMouseout", (cfiRange) => {
-      console.log('mouseout from rendition', cfiRange);
+    rendition.on("markMouseout", (e, cfiRange) => {
+      console.log('mouseout', e, cfiRange);
     });
 
-    rendition.on("markClicked", (cfiRange) => {
-      console.log('clicked from rendition', cfiRange);
+    rendition.on("markMousemove", (e, cfiRange) => {
+      console.log('mousemove', e, cfiRange);
+    })
+
+    rendition.on("markClicked", (e, cfiRange) => {
+      console.log('clicked from rendition', e, cfiRange);
     });
   
     // Apply a class to selected text
@@ -134,14 +138,17 @@
       {},
       {
         onClick : (e) => {
-          console.log("highlight-click", e.target);
+          // console.log("highlight-click", e.target);
         },
         onMouseOver : (e) => {
-          console.log("highlight-mouseover", e.target);
+          // console.log("highlight-mouseover", e.target);
         },
         onMouseOut : (e) => {
-          console.log("highlight-mouseout", e.target);
-        }
+          // console.log("highlight-mouseout", e.target);
+        },
+        // onMouseMove: (e) => {
+        //   // console.log("highlight-mousemove", e.clientX, e.clientY);
+        // }
       }
       );
       contents.window.getSelection().removeAllRanges();

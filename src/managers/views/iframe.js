@@ -610,24 +610,27 @@ class IframeView {
 
 		// ensuring backward compatibility 
 		const onClickCallback = cb || cbOptions.onClick;
-
 		const onMouseOverCallback = cbOptions.onMouseOver;
 		const onMouseOutCallback = cbOptions.onMouseOut;
+		const onMouseMoveCallback = cbOptions.onMouseMove;
 
 		const attributes = Object.assign({"fill": "yellow", "fill-opacity": "0.3", "mix-blend-mode": "multiply"}, styles);
 		let range = this.contents.range(cfiRange);
 
-		const emitOnClick = () => {
-			this.emit(EVENTS.VIEWS.MARK_CLICKED, cfiRange, data);
+		const emitOnClick = (event) => {
+			this.emit(EVENTS.VIEWS.MARK_CLICKED, event, cfiRange, data);
 		};
 
-		const emitOnMouseOver = () => {
-			this.emit(EVENTS.VIEWS.MARK_MOUSEOVER, cfiRange, data);
-			
+		const emitOnMouseOver = (event) => {
+			this.emit(EVENTS.VIEWS.MARK_MOUSEOVER, event, cfiRange, data);
 		};
 
-		const emitOnMouseOut = () => {
-			this.emit(EVENTS.VIEWS.MARK_MOUSEOUT, cfiRange, data);
+		const emitOnMouseOut = (event) => {
+			this.emit(EVENTS.VIEWS.MARK_MOUSEOUT, event, cfiRange, data);
+		};
+
+		const emitOnMouseMove = (event) => {
+			this.emit(EVENTS.VIEWS.MARK_MOUSEMOVE, event, cfiRange, data);
 		};
 
 		data["epubcfi"] = cfiRange;
@@ -665,8 +668,9 @@ class IframeView {
 		h.element.setAttribute("ref", className);
 		h.element.addEventListener("click", emitOnClick);
 		h.element.addEventListener("touchstart", emitOnClick);
-		h.element.addEventListener("mouseover", emitOnMouseOver);
-		h.element.addEventListener("mouseout", emitOnMouseOut);
+		h.element.addEventListener("mouseleave", emitOnMouseOver);
+		h.element.addEventListener("mouseenter", emitOnMouseOut);
+		h.element.addEventListener("mousemove", emitOnMouseMove);
 
 		if (onClickCallback) {
 			h.element.addEventListener("click", onClickCallback);
@@ -674,11 +678,15 @@ class IframeView {
 		}
 
 		if(onMouseOverCallback) {
-			h.element.addEventListener("mouseover", onMouseOverCallback);
+			h.element.addEventListener("mouseleave", onMouseOverCallback);
 		}
 
 		if(onMouseOutCallback) {
-			h.element.addEventListener("mouseout", onMouseOutCallback);
+			h.element.addEventListener("mouseenter", onMouseOutCallback);
+		}
+
+		if(onMouseMoveCallback) {
+			h.element.addEventListener("mousemove", onMouseMoveCallback);
 		}
 
 		return h;

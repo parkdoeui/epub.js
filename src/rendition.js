@@ -417,11 +417,13 @@ class Rendition {
 	 */
 	afterDisplayed(view){
 
-		view.on(EVENTS.VIEWS.MARK_CLICKED, (cfiRange, data) => this.triggerMarkEvent(cfiRange, data, view.contents));
+		view.on(EVENTS.VIEWS.MARK_CLICKED, (event, cfiRange, data) => this.triggerMarkMouseEvent(EVENTS.RENDITION.MARK_CLICKED, event, cfiRange, data, view.contents));
 
-		view.on(EVENTS.VIEWS.MARK_MOUSEOVER, (cfiRange, data) => this.triggerMarkMouseOverEvent(cfiRange, data, view.contents));
+		view.on(EVENTS.VIEWS.MARK_MOUSEOVER, (event, cfiRange, data) => this.triggerMarkMouseEvent(EVENTS.RENDITION.MARK_MOUSEOVER, event, cfiRange, data, view.contents));
 
-		view.on(EVENTS.VIEWS.MARK_MOUSEOUT, (cfiRange, data) => this.triggerMarkMouseOutEvent(cfiRange, data, view.contents));
+		view.on(EVENTS.VIEWS.MARK_MOUSEOUT, (event, cfiRange, data) => this.triggerMarkMouseEvent(EVENTS.RENDITION.MARK_MOUSEOUT, event, cfiRange, data, view.contents));
+
+		view.on(EVENTS.VIEWS.MARK_MOUSEMOVE,(event, cfiRange, data) => this.triggerMarkMouseEvent(EVENTS.RENDITION.MARK_MOUSEMOVE, event, cfiRange, data, view.contents));
 
 		this.hooks.render.trigger(view, this)
 			.then(() => {
@@ -927,12 +929,8 @@ class Rendition {
 		this.emit(EVENTS.RENDITION.MARK_CLICKED, cfiRange, data, contents);
 	}
 
-	triggerMarkMouseOverEvent(cfiRange, data, contents){
-		this.emit(EVENTS.RENDITION.MARK_MOUSEOVER, cfiRange, data, contents);
-	}
-
-	triggerMarkMouseOutEvent(cfiRange, data, contents){
-		this.emit(EVENTS.RENDITION.MARK_MOUSEOUT, cfiRange, data, contents);
+	triggerMarkMouseEvent(type, event, cfiRange, data, contents){
+		this.emit(type, event, cfiRange, data, contents);
 	}
 
 	/**

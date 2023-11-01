@@ -38,6 +38,7 @@ export const EVENTS = {
 		MARK_CLICKED : "markClicked",
 		MARK_MOUSEOVER: "markMouseover",
 		MARK_MOUSEOUT: "markMouseout",
+		MARK_MOUSEMOVE: "markMousemove",
 	},
 	RENDITION : {
 		STARTED : "started",
@@ -53,6 +54,7 @@ export const EVENTS = {
 		MARK_CLICKED : "markClicked",
 		MARK_MOUSEOUT: "markMouseout",
 		MARK_MOUSEOVER: "markMouseover",
+		MARK_MOUSEMOVE: "markMousemove",
 		SELECTED : "selected",
 		LAYOUT: "layout"
 	},
